@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -7,7 +9,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,private userService:UserService,private router:Router) {
     let formControls = {
       email: new FormControl('', [
         Validators.required,
@@ -30,7 +32,19 @@ export class LoginComponent implements OnInit {
   login() {
     let data = this.loginForm.value;
    
-    console.log(data)
+this.userService.loginAdmin(data).subscribe(
+  res=>{
+    console.log(res);
+    let token = res.token;
+    localStorage.setItem("myToken",token);
+    this.router.navigate(['/admin/category/list']);
+
+  },
+  err=>{
+    console.log(err);
+    
   }
+)  }
+
 
 }

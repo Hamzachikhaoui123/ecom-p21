@@ -11,9 +11,11 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-update.component.scss', './../../../../../../assets/css/sb-admin-2.css']
 })
 export class ProductUpdateComponent implements OnInit {
-  categorylist:any[] = []
-  updateProductForm: FormGroup;
-  constructor(private fb: FormBuilder,private categoryService:CategoryService, private productService: ProductService, private router: Router, private rout: ActivatedRoute, private toastr: ToastrService) {
+  public categorylist: any[] = []
+  public updateProductForm: FormGroup;
+  public imageUrl: String = "./../../../../../../assets/image/Subscriber-rafiki.png"
+  public imageFile!: File
+  constructor(private fb: FormBuilder, private categoryService: CategoryService, private productService: ProductService, private router: Router, private rout: ActivatedRoute, private toastr: ToastrService) {
     let formControls = {
       name: new FormControl('', [
         Validators.required,
@@ -29,13 +31,13 @@ export class ProductUpdateComponent implements OnInit {
         Validators.required,
         Validators.pattern("[0-9]+"),
       ])
-      ,image:new FormControl('',[
+      , image: new FormControl('', [
         Validators.required,
-        
+
       ]),
-      categoryId:new FormControl('',[
+      categoryId: new FormControl('', [
         Validators.required,
-        
+
       ]),
     }
     this.updateProductForm = this.fb.group(formControls)
@@ -60,34 +62,47 @@ export class ProductUpdateComponent implements OnInit {
           name: res.name,
           description: res.description,
           price: res.price,
-          category: res.category
+          
 
         })
       },
-      err=>{
+      err => {
         console.log(err);
-        
+
       }
 
     )
     this.categoryService.getCateogryAll().subscribe(
-      res=>{
+      res => {
         this.categorylist = res
       },
-      err=>{
+      err => {
         console.log(err);
-        
+
       }
     )
+  }
+  onFileSelect(event: any) {
+    let reader = new FileReader //deux classe fi typeScript t5alinia na9ra fiche
+    reader.readAsDataURL(event.target.files[0])
+    reader.onload = (event) => this.imageUrl = event.target?.result?.toString()!
+    this.imageFile = (event).target.files[0]
   }
   updateProduct() {
     let data = this.updateProductForm.value
     let idProduct = this.rout.snapshot.params.id;
-    console.log(idProduct);
-    console.log(data);
-    this.productService.updateProduct(data, idProduct).subscribe(
+    const formData = new FormData()
+
+
+    formData.append("name", data.name)
+    formData.append("description", data.description)
+    formData.append("price", data.price)
+    formData.append("categoryId", data.categoryId)
+    formData.append("image", this.imageFile)
+
+    this.productService.updateProduct(formData,idProduct).subscribe(
       res => {
-        this.toastr.warning(res.message);
+        this.toastr.success(res.message);
 
         this.router.navigate(['/admin/product/list']);
       },
@@ -96,6 +111,7 @@ export class ProductUpdateComponent implements OnInit {
 
       }
     )
+
 
 
   }
