@@ -1,0 +1,77 @@
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <app-topbar></app-topbar>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800"> Update Categories </h1>
+          <br>
+
+
+
+        </div>
+
+
+        <!-- Content Row -->
+
+        <div class="row">
+
+          <!-- Area Chart -->
+          <div class="col">
+            <div class="card shadow mb-4">
+              <!-- Card Header - Dropdown -->
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Update Categories </h6>
+
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <form [formGroup]="updateCategoryForm" (ngSubmit)="updateCategory()">
+                  <div class="mb-3">
+                    <label for="formGroupExampleInput" class="form-label">Name:</label>
+                    <input type="text" formControlName="name" class="form-control">
+                    <div *ngIf="name?.touched  && name?.invalid">
+                      <small *ngIf='name?.errors?.required' class="text-danger">Name is required</small>
+                      <small *ngIf='name?.errors?.pattern' class="text-danger"> Invalid Name</small>
+                      <small *ngIf='name?.errors?.minlength' class="text-danger">Name must contain two characters at
+                        least</small>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col"><button type="submit" class="btn btn-sm btn-warning mt-1 mb-2">Update</button>
+                    </div>
+                  </div>
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie Chart -->
+
+      </div>
+    </div>
+
+    <!-- Content Row -->
+    <app-bottombar></app-bottombar>
+  </div>
+  <!-- /.container-fluid -->
+
+</div>

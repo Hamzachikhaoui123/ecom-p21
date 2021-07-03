@@ -1,0 +1,96 @@
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"> Update Products </h1>
+        <br>
+
+      </div>
+      <!-- Content Row -->
+
+      <div class="row">
+
+        <!-- Area Chart -->
+        <div class="col">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Update Products </h6>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <form [formGroup]="updateProductForm" (ngSubmit)="updateProduct()">
+                <div class="form-group">
+                  <label for="formGroupExampleInput" class="form-label">Name:</label>
+                  <input type="text" formControlName="name" class="form-control">
+                  <div *ngIf="name?.touched  && name?.invalid">
+                    <small *ngIf='name?.errors?.required' class="text-danger">Name is required</small>
+                    <small *ngIf='name?.errors?.pattern' class="text-danger"> Invalid Name</small>
+                    <small *ngIf='name?.errors?.minlength' class="text-danger">Name must contain two characters at
+                      least</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput" class="form-label">Description:</label>
+                  <input type="text" formControlName="description" class="form-control">
+                  <div *ngIf="description?.touched  && description?.invalid">
+                    <small *ngIf='description?.errors?.required' class="text-danger">Description is required</small>
+                    <small *ngIf='description?.errors?.pattern' class="text-danger"> Invalid Description</small>
+                    <small *ngIf='description?.errors?.minlength' class="text-danger">Description must contain two
+                      characters at least</small>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput" class="form-label">Price:</label>
+                  <input type="text" formControlName="price"  class="form-control">
+                  <div *ngIf="price?.touched  && price?.invalid">
+                    <small *ngIf='price?.errors?.required' class="text-danger">Price is required</small>
+                    <small *ngIf='price?.errors?.pattern' class="text-danger"> Invalid Price</small>
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="formGroupExampleInput" class="form-label">Image:</label>
+                  <input class="form-control-file form-control-sm"  formControlName ="image" type="file">
+                </div>
+                <div class="form-group">
+                  <label for="disabledSelect" class="form-label">Category :</label>
+                  <select id="disabledSelect" formControlName="categoryId" class="form-control">
+                    <option>Select Categories</option>
+                    <option  *ngFor="let category of categorylist" value={{category._id}}>{{category.name}}</option>
+                   
+                  </select>
+                </div>
+                <div class="col"><button type="submit" class="btn btn-sm btn-warning mt-1 mb-2" >Update</button>
+                </div>
+              </form>
+            </div>
+
+
+          </div>
+
+
+          
+        </div>
+      </div>
+
+    </div>
+
+    <br>
+    <app-bottombar></app-bottombar>
+
+  </div>
+  <!-- /.container-fluid -->
+
+</div>
