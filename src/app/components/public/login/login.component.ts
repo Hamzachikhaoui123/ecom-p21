@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  constructor(private fb: FormBuilder,private userService:UserService,private router:Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
     let formControls = {
       email: new FormControl('', [
         Validators.required,
@@ -17,34 +17,40 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-      Validators.minLength(6)
+        Validators.minLength(6)
       ])
     }
     this.loginForm = this.fb.group(formControls)
   }
   get email() { return this.loginForm.get('email') }
   get password() { return this.loginForm.get('password') }
- 
+
 
 
   ngOnInit(): void {
+    let isLoggedIn = this.userService.isLoggedIn()
+    if (isLoggedIn) {
+      this.router.navigate(['/']);
+    }
   }
   login() {
     let data = this.loginForm.value;
-   
-this.userService.loginAdmin(data).subscribe(
-  res=>{
-    console.log(res);
-    let token = res.token;
-    localStorage.setItem("myToken",token);
-    this.router.navigate(['/admin/category/list']);
 
-  },
-  err=>{
-    console.log(err);
-    
+    this.userService.loginAdmin(data).subscribe(
+      res => {
+        console.log(res);
+        let token = res.token;
+        localStorage.setItem("myToken", token);
+
+        this.router.navigate(['/dashboard']);
+
+      },
+      err => {
+        console.log(err);
+
+      }
+    )
   }
-)  }
 
 
 }

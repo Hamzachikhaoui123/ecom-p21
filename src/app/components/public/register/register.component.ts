@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-register',
@@ -9,7 +10,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private fb: FormBuilder,
+     private userService: UserService,
+      private router: Router,
+      private toaster:ToastrService) {
     let formControls = {
       firstname: new FormControl('', [
         Validators.required,
@@ -43,11 +47,17 @@ export class RegisterComponent implements OnInit {
   get repassword() { return this.registerForm.get("repassword") }
 
   ngOnInit(): void {
+   let isLoggedIn =  this.userService.isLoggedIn()
+    if(isLoggedIn){
+      this.router.navigate(['/']);
+    }
+    
   }
   register() {
     let data = this.registerForm.value
     this.userService.registerUser(data).subscribe(
       res => {
+        this.toaster.success(res.message)
         this.router.navigate(['/login'])
       },
       err => {

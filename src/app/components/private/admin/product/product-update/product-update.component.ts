@@ -59,12 +59,14 @@ export class ProductUpdateComponent implements OnInit {
     this.productService.getOneProduct(idProduct).subscribe(
       res => {
         this.updateProductForm.patchValue({
+
           name: res.name,
           description: res.description,
           price: res.price,
-          
+
 
         })
+        this.imageUrl = "http://localhost:3000/" + res.image
       },
       err => {
         console.log(err);
@@ -100,7 +102,7 @@ export class ProductUpdateComponent implements OnInit {
     formData.append("categoryId", data.categoryId)
     formData.append("image", this.imageFile)
 
-    this.productService.updateProduct(formData,idProduct).subscribe(
+    this.productService.updateProduct(formData, idProduct).subscribe(
       res => {
         this.toastr.success(res.message);
 

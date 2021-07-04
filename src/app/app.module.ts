@@ -25,6 +25,7 @@ import { OrderDetailsComponent } from './components/private/admin/order/order-de
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule, ToastNoAnimation, ToastNoAnimationModule } from 'ngx-toastr';
+import { Page404Component } from './page404/page404.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { ToastrModule, ToastNoAnimation, ToastNoAnimationModule } from 'ngx-toas
    
     BottombarComponent,
     DashboardComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    Page404Component
   ],
   imports: [
     BrowserModule,

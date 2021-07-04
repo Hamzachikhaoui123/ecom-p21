@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 import { CategoryAddComponent } from './components/private/admin/category/category-add/category-add.component';
 import { CategoryListComponent } from './components/private/admin/category/category-list/category-list.component';
 import { CategoryUpdateComponent } from './components/private/admin/category/category-update/category-update.component';
@@ -14,6 +15,9 @@ import { DashboardComponent } from './components/private/shared/dashboard/dashbo
 import { HomeComponent } from './components/public/home/home.component';
 import { LoginComponent } from './components/public/login/login.component';
 import { RegisterComponent } from './components/public/register/register.component';
+import { Page404Component } from './page404/page404.component';
+import { AdminGuard } from './guards/admin.guard';
+import { ClientGuard } from './guards/client.guard';
 
 const routes: Routes = [
   //public Routes
@@ -40,15 +44,18 @@ const routes: Routes = [
         children: [
           {
             path: "list",
-            component: CategoryListComponent
+            component: CategoryListComponent,
+           
           },
           {
             path: "add",
-            component: CategoryAddComponent
+            component: CategoryAddComponent,
+           
           },
           {
             path: "update/:id",
-            component: CategoryUpdateComponent
+            component: CategoryUpdateComponent,
+           
           }
         ]
       },
@@ -57,15 +64,18 @@ const routes: Routes = [
         children: [
           {
             path: "list",
-            component: ProductListComponent
+            component: ProductListComponent,
+           
           },
           {
             path: "add",
-            component: ProductAddComponent
+            component: ProductAddComponent,
+           
           },
           {
             path: "update/:id",
-            component: ProductUpdateComponent
+            component: ProductUpdateComponent,
+           
           }
         ]
       },
@@ -74,7 +84,8 @@ const routes: Routes = [
         children: [
           {
             path: "list",
-            component: ClientListComponent
+            component: ClientListComponent,
+           
           }
         ]
       },
@@ -83,15 +94,18 @@ const routes: Routes = [
         children: [
           {
             path: "list",
-            component: OrderListComponent
+            component: OrderListComponent,
+           
           },
           {
             path: "details",
-            component:OrderDetailsComponent
+            component:OrderDetailsComponent,
+           
           }
         ]
       }
-    ]
+    ],
+    canActivateChild:[AdminGuard]
   },
   //client
   {
@@ -102,22 +116,31 @@ const routes: Routes = [
         children: [
           {
             path: "my-orders",
-            component: MyOrdersComponent
+            component: MyOrdersComponent,
+           
           },
           
           
           {
             path: "details",
-            component:OrderDetailsComponent
+            component:OrderDetailsComponent,
+           
           }
         ]
       }
-    ]
+    ],
+    canActivateChild:[ClientGuard]
   },
   //dashboard
   {
     path: "dashboard",
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate:[AuthGuard]
+   
+  },
+  {
+    path:"**",
+    component :Page404Component
   }
 
 ];
